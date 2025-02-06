@@ -1,0 +1,24 @@
+{
+  "packageDirectories": [
+    {
+      "path": "force-app",
+      "default": true,
+      "package": "Wunderbricks #IntegrationName# Extension",
+      "versionName": "ver 1.0.0",
+      "versionNumber": "1.0.0.NEXT",
+      "dependencies": [
+        {
+          "package": "Wunderbricks App",
+          "versionNumber": "2.12.0.LATEST"
+        }
+      ]
+    }
+  ],
+  "name": "pms-#integration-name#",
+  "namespace": "wunderbricks",
+  "sfdcLoginUrl": "https://login.salesforce.com",
+  "sourceApiVersion": "59.0",
+  "packageAliases": {
+    "Wunderbricks App": "0Ho3Y000000k9cVSAQ"
+  }
+}

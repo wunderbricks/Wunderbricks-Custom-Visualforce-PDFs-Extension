@@ -1,0 +1,25 @@
+{
+    "orgName": "Wunderbricks",
+    "edition": "Partner Enterprise",
+    "language": "en_US",
+    "features": ["AddCustomTabs:30", "StateAndCountryPicklist"],
+    "settings": {
+        "languageSettings": {
+            "enableTranslationWorkbench": true
+        },
+        "mobileSettings": {
+            "enableS1EncryptedStoragePref2": false
+        },
+        "caseSettings": {
+            "emailToCase": {
+                "enableEmailToCase": true
+            }
+        },
+        "deploymentSettings": {
+            "doesSkipAsyncApexValidation": true
+        },
+        "customAddressFieldSettings": {
+            "enableCustomAddressField": true
+        }
+    }
+}
