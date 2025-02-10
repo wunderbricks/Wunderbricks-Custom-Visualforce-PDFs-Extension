@@ -34,6 +34,7 @@
                 font-size: 115%;
                 font-weight: bold;
                 margin-bottom: 1mm;
+                color: red;
             }
 
             .divH2 {
@@ -128,11 +129,12 @@
         </style>
     </head>
     <body>
+        <div class="divH1 paddingBottom" style="text-align: left; text-transform: uppercase; width: 100%;">Hello From The Custom PDF Template</div>
         <table class="headerTable">
             <tr>
                 <!-- Top Left: Invoice Type Label -->
                 <td class="leftSide invoiceLabel">
-                    <div class="divH1 paddingBottom" style="text-align: left; text-transform: uppercase;">{!IF(invDTO.invoiceType == 'Credit', $Label.Credit_Invoice_label, $Label.Invoice)}</div>
+                    <div class="divH1 paddingBottom" style="text-align: left; text-transform: uppercase;">{!IF(invDTO.invoiceType == 'Credit', $Label.wunderbricks__Credit_Invoice_label, $Label.wunderbricks__Invoice)}</div>
                 </td>
                 <!-- Top Right: Logo -->
                 <td class="rightSide">
@@ -226,13 +228,13 @@
                                 <tr style="{!IF(invDTO.fromAccount.taxId == null , 'display: none;', '')}">
                                     <td></td>
                                     <td class="divH2 rightAlign italic smallLeftPadding">
-                                        <div>{!$Label.Tax_Id}: {!invDTO.fromAccount.taxId}</div>
+                                        <div>{!$Label.wunderbricks__Tax_Id}: {!invDTO.fromAccount.taxId}</div>
                                     </td>
                                 </tr>
                                 <tr style="{!IF(invDTO.fromAccount.cocNumber == null , 'display: none;', '')}">
                                     <td></td>
                                     <td class="divH2 rightAlign italic smallLeftPadding">
-                                        <div>{!$Label.CoC_Number}: {!invDTO.fromAccount.cocNumber}</div>
+                                        <div>{!$Label.wunderbricks__CoC_Number}: {!invDTO.fromAccount.cocNumber}</div>
                                     </td>
                                 </tr>
                             </tbody>
@@ -248,7 +250,7 @@
                             <tbody>
                                 <tr>
                                     <td class="fieldHeader leftAlign" style="width: 1.2in; padding-right: 0.1in;">
-                                        <div>{!$Label.Invoice_number}:</div>
+                                        <div>{!$Label.wunderbricks__Invoice_number}:</div>
                                     </td>
                                     <td class="divH2 leftAlign  smallLeftPadding">
                                         <div>{!invDTO.invoiceNumber}</div>
@@ -256,7 +258,7 @@
                                 </tr>
                                 <tr>
                                     <td class="fieldHeader leftAlign" style="width: 1.2in; padding-right: 0.1in;">
-                                        <div>{!$Label.Debtor_number}:</div>
+                                        <div>{!$Label.wunderbricks__Debtor_number}:</div>
                                     </td>
                                     <td class="divH2 leftAlign  smallLeftPadding">
                                         <div>{!invDTO.toAccount.debtorNumber}</div>
@@ -264,7 +266,7 @@
                                 </tr>
                                 <tr>
                                     <td class="fieldHeader leftAlign" style="width: 1.2in; padding-right: 0.1in;">
-                                        <div>{!$Label.Invoice_date}:</div>
+                                        <div>{!$Label.wunderbricks__Invoice_date}:</div>
                                     </td>
                                     <td class="divH2 leftAlign  smallLeftPadding">
                                         <div>{!invDTO.invoiceDate}</div>
@@ -272,7 +274,7 @@
                                 </tr>
                                 <tr style="{!IF(invDTO.invoiceType == 'Credit' , 'display: none;', '')}">
                                     <td class="fieldHeader leftAlign" style="width: 1.2in; padding-right: 0.1in;">
-                                        <div>{!$Label.Payment_due_date_label}:</div>
+                                        <div>{!$Label.wunderbricks__Payment_due_date_label}:</div>
                                     </td>
                                     <td class="divH2 leftAlign  smallLeftPadding">
                                         <div>{!invDTO.paymentDueDate}</div>
@@ -280,7 +282,7 @@
                                 </tr>
                                 <tr style="{!IF(invDTO.invoiceType == 'Debit' , 'display: none;', '')}">
                                     <td class="fieldHeader leftAlign" style="width: 1.4in; padding-right: 0.1in;">
-                                        <div>{!$Label.Payment_Term_days_label}:</div>
+                                        <div>{!$Label.wunderbricks__Payment_Term_days_label}:</div>
                                     </td>
                                     <td class="divH2 leftAlign  smallLeftPadding">
                                         <div>{!invDTO.paymentTermDays}</div>
@@ -298,22 +300,22 @@
             <thead>
                 <tr class="trRow">
                     <th class="borderAndPadding leftAlign" style="width: 2.80in;">
-                        <div>{!$Label.Description}</div>
+                        <div>{!$Label.wunderbricks__Description}</div>
                     </th>
                     <th class="borderAndPadding leftAlign" style="width: 1.82in;">
-                        <div>{!$Label.Period}</div>
+                        <div>{!$Label.wunderbricks__Period}</div>
                     </th>
                     <th class="borderAndPadding rightAlign" style="width: 0.90in;">
-                        <div>{!$Label.Amount_label}</div>
+                        <div>{!$Label.wunderbricks__Amount_label}</div>
                     </th>
                     <th class="borderAndPadding rightAlign" style="width: 0.70in;">
-                        <div>{!$Label.VAT_Percent_Label}</div>
+                        <div>{!$Label.wunderbricks__VAT_Percent_Label}</div>
                     </th>
                     <th class="borderAndPadding rightAlign" style="width: 0.81in;">
-                        <div>{!$Label.VAT_Input_Label}</div>
+                        <div>{!$Label.wunderbricks__VAT_Input_Label}</div>
                     </th>
                     <th class="borderAndPadding rightAlign" style="width: 0.90in;">
-                        <div>{!$Label.Total_label}</div>
+                        <div>{!$Label.wunderbricks__Total_label}</div>
                     </th>
                 </tr>
             </thead>
@@ -330,25 +332,25 @@
                             <div>{!invoiceItem.periodStartDateStr} - {!invoiceItem.periodEndDateStr}</div>
                         </td>
                         <td class="borderAndPadding rightAlign">
-                            {!$Label.Euro_sign} {!invoiceItem.amountExclVat} 
+                            {!$Label.wunderbricks__Euro_sign} {!invoiceItem.amountExclVat} 
                         </td>
                         <td class="borderAndPadding rightAlign">
-                            {!invoiceItem.vatRate} {!$Label.Percent_sign}
+                            {!invoiceItem.vatRate} {!$Label.wunderbricks__Percent_sign}
                         </td>
                         <td class="borderAndPadding rightAlign">
-                            {!$Label.Euro_sign} {!invoiceItem.vatAmount} 
+                            {!$Label.wunderbricks__Euro_sign} {!invoiceItem.vatAmount} 
                         </td>
                         <td class="borderAndPadding rightAlign">
-                            {!$Label.Euro_sign} {!invoiceItem.amountInclVAT} 
+                            {!$Label.wunderbricks__Euro_sign} {!invoiceItem.amountInclVAT} 
                         </td>                         
                     </tr>
                 </apex:repeat>
                 <tr class="trRow" style="font-weight: bold;">
                     <td class="borderAndPadding" colspan="5">
-                        <div>{!IF(invDTO.invoiceType == 'Credit', $Label.Total_to_receive_label, $Label.Total_to_pay)}</div>
+                        <div>{!IF(invDTO.invoiceType == 'Credit', $Label.wunderbricks__Total_to_receive_label, $Label.wunderbricks__Total_to_pay)}</div>
                     </td>
                     <td  class="borderAndPadding rightAlign">
-                        {!$Label.Euro_sign} {!invDTO.totalAmountInclVAT} 
+                        {!$Label.wunderbricks__Euro_sign} {!invDTO.totalAmountInclVAT} 
                     </td>                         
                 </tr>
             </tbody>

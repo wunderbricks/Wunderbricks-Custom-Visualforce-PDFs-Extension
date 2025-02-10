@@ -21,24 +21,24 @@ public inherited sharing class CustomInvoiceDTO {
     public Decimal paymentTermDays                   {get; set;}
     public String invoiceLanguage                    {get; set;}
 
-    public CustomInvoiceDTO(Invoice__c invoice, String invoiceMessage, CustomAccountDTO fromAccount, List<CustomBankAccountDTO> bankAccounts, CustomAccountDTO toAccount, List<CustomInvoiceItemDTO> invoiceItems) {
+    public CustomInvoiceDTO(wunderbricks__Invoice__c invoice, String invoiceMessage, CustomAccountDTO fromAccount, List<CustomBankAccountDTO> bankAccounts, CustomAccountDTO toAccount, List<CustomInvoiceItemDTO> invoiceItems) {
         this.invoiceNumber          = invoice.Name;
-        this.invoiceDate            = invoice.Invoice_Date__c != null ? generateFullDayOrMonthNumber(invoice.Invoice_Date__c.day()) + '/' + generateFullDayOrMonthNumber(invoice.Invoice_Date__c.month()) + '/' + invoice.Invoice_Date__c.year() : null;
-        this.paymentDueDate         = invoice.Payment_Due_Date__c != null ? generateFullDayOrMonthNumber(invoice.Payment_Due_Date__c.day()) + '/' + generateFullDayOrMonthNumber(invoice.Payment_Due_Date__c.month()) + '/' + invoice.Payment_Due_Date__c.year() : null;
+        this.invoiceDate            = invoice.wunderbricks__Invoice_Date__c != null ? generateFullDayOrMonthNumber(invoice.wunderbricks__Invoice_Date__c.day()) + '/' + generateFullDayOrMonthNumber(invoice.wunderbricks__Invoice_Date__c.month()) + '/' + invoice.wunderbricks__Invoice_Date__c.year() : null;
+        this.paymentDueDate         = invoice.wunderbricks__Payment_Due_Date__c != null ? generateFullDayOrMonthNumber(invoice.wunderbricks__Payment_Due_Date__c.day()) + '/' + generateFullDayOrMonthNumber(invoice.wunderbricks__Payment_Due_Date__c.month()) + '/' + invoice.wunderbricks__Payment_Due_Date__c.year() : null;
         this.invoiceMessage         = invoiceMessage;
-        this.invoiceType            = invoice.Type__c;
+        this.invoiceType            = invoice.wunderbricks__Type__c;
         this.fromAccount            = fromAccount;
         this.bankAccounts           = bankAccounts;
         this.toAccount              = toAccount;
         this.invoiceItems           = invoiceItems;
-        this.totalAmountExclVAT     = CustomUtilityService.getFormattedDecimalString(invoice.Total_excl_VAT__c);
-        this.totalAmountInclVAT     = CustomUtilityService.getFormattedDecimalString(invoice.Total_incl_VAT__c);
-        this.totalVAT               = CustomUtilityService.getFormattedDecimalString(invoice.Total_incl_VAT__c - invoice.Total_excl_VAT__c);
-        this.paidFromBankAccount    = invoice.Paid_From_Bank_Account__r.Name;
-        this.paidToBankAccount      = invoice.Paid_To_Bank_Account__r.Name;
-        this.paymentTermDays        = invoice.Payment_Term_Days__c;
-        this.paymentTermDays        = invoice.Payment_Term_Days__c;
-        this.invoiceLanguage        = invoice.Invoice_Language__c;
+        this.totalAmountExclVAT     = CustomUtilityService.getFormattedDecimalString(invoice.wunderbricks__Total_excl_VAT__c);
+        this.totalAmountInclVAT     = CustomUtilityService.getFormattedDecimalString(invoice.wunderbricks__Total_incl_VAT__c);
+        this.totalVAT               = CustomUtilityService.getFormattedDecimalString(invoice.wunderbricks__Total_incl_VAT__c - invoice.wunderbricks__Total_excl_VAT__c);
+        this.paidFromBankAccount    = invoice.wunderbricks__Paid_From_Bank_Account__r.Name;
+        this.paidToBankAccount      = invoice.wunderbricks__Paid_To_Bank_Account__r.Name;
+        this.paymentTermDays        = invoice.wunderbricks__Payment_Term_Days__c;
+        this.paymentTermDays        = invoice.wunderbricks__Payment_Term_Days__c;
+        this.invoiceLanguage        = invoice.wunderbricks__Invoice_Language__c;
     }
 
     private String generateFullDayOrMonthNumber(Integer dayOrMonthNumber) {

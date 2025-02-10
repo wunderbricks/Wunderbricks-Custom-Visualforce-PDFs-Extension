@@ -21,14 +21,14 @@ public inherited sharing class CustomAccountDTO {
 
     public CustomAccountDTO(Account accountRecord) {
         this.name                     = accountRecord.Name;
-        this.taxId                    = accountRecord.Tax_ID__c;
-        this.debtorNumber             = accountRecord.Debtor_Number__c;
-        this.attention                = accountRecord.Attention__c;
-        this.invoiceEmail             = accountRecord.Invoice_Email__c;
-        this.invoicePhone             = accountRecord.Invoice_Phone__c;
-        this.cocNumber                = accountRecord.CoC_Number__c;
-        this.logoId                   = accountRecord.Logo_Id__c;
-        this.logoUrl                  = '/sfc/servlet.shepherd/version/download/' + accountRecord.Logo_Id__c;
+        this.taxId                    = accountRecord.wunderbricks__Tax_ID__c;
+        this.debtorNumber             = accountRecord.wunderbricks__Debtor_Number__c;
+        this.attention                = accountRecord.wunderbricks__Attention__c;
+        this.invoiceEmail             = accountRecord.wunderbricks__Invoice_Email__c;
+        this.invoicePhone             = accountRecord.wunderbricks__Invoice_Phone__c;
+        this.cocNumber                = accountRecord.wunderbricks__CoC_Number__c;
+        this.logoId                   = accountRecord.wunderbricks__Logo_Id__c;
+        this.logoUrl                  = '/sfc/servlet.shepherd/version/download/' + accountRecord.wunderbricks__Logo_Id__c;
         this.billingStreet            = accountRecord.BillingStreet;
         this.billingPostalCodeAndCity = generatePostalCodeAndCity(accountRecord.BillingPostalCode, accountRecord.BillingCity);
         this.billingCountry           = accountRecord.BillingCountry;
