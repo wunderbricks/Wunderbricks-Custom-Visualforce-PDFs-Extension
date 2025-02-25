@@ -9,7 +9,7 @@
       "dependencies": [
         {
           "package": "Wunderbricks App",
-          "versionNumber": "2.30.0.LATEST"
+          "versionNumber": "2.34.0.LATEST"
         }
       ]
     }
@@ -20,6 +20,8 @@
   "sourceApiVersion": "59.0",
   "packageAliases": {
     "Wunderbricks App": "0Ho3Y000000k9cVSAQ",
-    "Wunderbricks Custom Visualforce PDFs Extension": "0HoVi000000Bj1pKAC"
+    "Wunderbricks Custom Visualforce PDFs Extension": "0HoVi000000Bj1pKAC",
+    "Wunderbricks Custom Visualforce PDFs Extension@1.0.0-1": "04tVi000000zKEjIAM",
+    "Wunderbricks Custom Visualforce PDFs Extension@1.0.0-2": "04tVi000000zKJZIA2"
   }
 }
