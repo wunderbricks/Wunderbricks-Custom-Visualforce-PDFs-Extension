@@ -19,12 +19,10 @@
 
             .infoTable {
                 width: 100%;
-                border-collapse: collapse;
             }
 
             .invoiceItemsTable {
                 font-size: 80%;
-                border-collapse: collapse;
                 width: 100%;
                 margin-top: .1in;
                 display: block;
@@ -89,7 +87,6 @@
             }
 
             .borderAndPadding {
-                border: 1px solid black;
                 padding: 6px;
             }
 
