@@ -17,15 +17,16 @@
                 text-align: center;
             }
 
-            .infoTable {
+            table {
+                page-break-inside: avoid;
+                border-collapse: collapse;
+                margin-top: 25px;
                 width: 100%;
             }
 
             .invoiceItemsTable {
                 font-size: 80%;
-                width: 100%;
-                margin-top: .1in;
-                display: block;
+                margin-top: 30px;
             }
 
             .divH1 {
@@ -73,7 +74,14 @@
                 vertical-align: bottom;
             }
 
+            .paddingTop {
+                padding-top: 15px;
+            }
             .paddingBottom {
+                padding-bottom: 15px;
+            }
+            .paddingX {
+                padding-top: 15px;
                 padding-bottom: 15px;
             }
 
@@ -83,14 +91,14 @@
             }
 
             .trRow {
-                height: 0.5in;
+                height: 0.4in;
             }
 
-            .borderAndPadding {
-                padding: 6px;
+            .noPadding {
+                padding: 0;
             }
 
-            .smallLeftPadding {
+            td {
                 padding-left: 0.15in;
             }
 
@@ -127,265 +135,207 @@
     <body>
         <table class="headerTable">
             <tr>
-                <!-- Top Left: Invoice Type Label -->
-                <td class="leftSide invoiceLabel">
-                    <div class="divH1 paddingBottom" style="text-align: left; text-transform: uppercase;">{!IF(invDTO.invoiceType == 'Credit', $Label.wunderbricks__Credit_Invoice_label, $Label.wunderbricks__Invoice)}</div>
-                </td>
-                <!-- Top Right: Logo -->
-                <td class="rightSide">
-                    <div class="paddingBottom">
-                        <img class="imageLogo logoHeight" src="{!invDTO.fromAccount.logoURL}"/>
-                    </div>
-                </td>
-            </tr>
- 
-            <tr>
                 <!-- Middle Left: Tenant Details -->
                 <td class="leftSide">
-                    <div>
-                        <table class="infoTable">
-                            <tbody>
-                                <tr>
-                                    <td></td>
-                                    <td class="divH2 leftAlign smallLeftPadding" style="font-weight: bold;">
-                                        <div>{!invDTO.toAccount.name}</div>
-                                    </td>
-                                </tr>
-                                <tr style="{!IF(invDTO.toAccount.billingStreet == null , 'display: none;', '')}">
-                                    <td></td>
-                                    <td class="divH2 leftAlign smallLeftPadding">
-                                        <div>{!invDTO.toAccount.billingStreet}</div>
-                                    </td>
-                                </tr>
-                                <tr style="{!IF(invDTO.toAccount.billingPostalCodeAndCity == null , 'display: none;', '')}">
-                                    <td></td>
-                                    <td class="divH2 leftAlign  smallLeftPadding">
-                                        <div>{!invDTO.toAccount.billingPostalCodeAndCity}</div>
-                                    </td>
-                                </tr>
-                                <tr style="{!IF(invDTO.toAccount.billingCountry == null || invDTO.toAccount.billingCountry == invDTO.fromAccount.billingCountry , 'display: none;', '')}">
-                                    <td></td>
-                                    <td class="divH2 leftAlign smallLeftPadding">
-                                        <div>{!invDTO.toAccount.billingCountry}</div>
-                                    </td>
-                                </tr>
-                                <tr style="{!IF(invDTO.toAccount.attention == null , 'display: none;', '')}">
-                                    <td></td>
-                                    <td class="divH2 leftAlign italic smallLeftPadding">
-                                        <div>{!invDTO.toAccount.attention}</div>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
+                    <table class="infoTable">
+                        <tbody>
+                            <tr>
+                                <td class="divH2 leftAlign" style="font-weight: bold;">
+                                    <div>{!invDTO.toAccount.name}</div>
+                                </td>
+                            </tr>
+                            <tr style="{!IF(invDTO.toAccount.attention == null , 'display: none;', '')}">
+                                <td class="divH2 leftAlign">
+                                    <div>{!invDTO.toAccount.attention}</div>
+                                </td>
+                            </tr>
+                            <tr style="{!IF(invDTO.toAccount.billingStreet == null , 'display: none;', '')}">
+                                <td class="divH2 leftAlign">
+                                    <div>{!invDTO.toAccount.billingStreet}</div>
+                                </td>
+                            </tr>
+                            <tr style="{!IF(invDTO.toAccount.billingPostalCodeAndCity == null , 'display: none;', '')}">
+                                <td class="divH2 leftAlign ">
+                                    <div>{!invDTO.toAccount.billingPostalCodeAndCity}</div>
+                                </td>
+                            </tr>
+                            <tr style="{!IF(invDTO.toAccount.billingCountry == null || invDTO.toAccount.billingCountry == invDTO.fromAccount.billingCountry , 'display: none;', '')}">
+                                <td class="divH2 leftAlign">
+                                    <div>{!invDTO.toAccount.billingCountry}</div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </td>
                 <!-- Middle Right: Company Details -->
                 <td class="rightSide">
-                    <div>
-                        <table class="infoTable">
-                            <tbody>
-                                <tr style="{!IF(invDTO.fromAccount.name == null , 'display: none;', '')}">
-                                    <td></td>
-                                    <td class="divH2 rightAlign  smallLeftPadding" style="font-weight: bold;">
-                                        <div>{!invDTO.fromAccount.name}</div>
+                    <table class="infoTable">
+                        <tbody>
+                            <tr style="{!IF(invDTO.fromAccount.name == null , 'display: none;', '')}">
+                                <td class="divH2 rightAlign " style="font-weight: bold;">
+                                    <div>{!invDTO.fromAccount.name}</div>
+                                </td>
+                            </tr>
+                            <tr style="{!IF(invDTO.fromAccount.billingStreet == null , 'display: none;', '')}">
+                                <td class="divH2 rightAlign ">
+                                    <div>{!invDTO.fromAccount.billingStreet}</div>
+                                </td>
+                            </tr>
+                            <tr style="{!IF(invDTO.fromAccount.billingPostalCodeAndCity == null , 'display: none;', '')}">
+                                <td class="divH2 rightAlign ">
+                                    <div>{!invDTO.fromAccount.billingPostalCodeAndCity}</div>
+                                </td>
+                            </tr>
+                            <tr style="{!IF(invDTO.fromAccount.billingCountry == null , 'display: none;', '')}">
+                                <td class="divH2 rightAlign ">
+                                    <div style="margin-bottom: 20px;">{!invDTO.fromAccount.billingCountry}</div>
+                                </td>
+                            </tr>
+                            <tr style="{!IF(invDTO.fromAccount.invoicePhone == null , 'display: none;', '')}" >
+                                <td class="divH2 rightAlign ">
+                                    <div>{!invDTO.fromAccount.invoicePhone}</div>
+                                </td>
+                            </tr>
+                            <tr style="{!IF(invDTO.fromAccount.invoiceEmail == null , 'display: none;', '')}">
+                                <td class="divH2 rightAlign" >
+                                    <div style="margin-bottom: 20px;">{!invDTO.fromAccount.invoiceEmail}</div>
+                                </td>
+                            </tr>
+                            <apex:repeat value="{!invDTO.bankAccounts}" var="bankAccount">
+                                <tr style="{!IF(bankAccount.accountHolderName == null , 'display: none;', '')}" >
+                                    <td class="divH2 rightAlign">
+                                        <div>{!bankAccount.accountHolderName}</div>
                                     </td>
                                 </tr>
-                                <tr style="{!IF(invDTO.fromAccount.billingStreet == null , 'display: none;', '')}">
-                                    <td></td>
-                                    <td class="divH2 rightAlign  smallLeftPadding">
-                                        <div>{!invDTO.fromAccount.billingStreet}</div>
+                                <tr style="{!IF(bankAccount.bank == null , 'display: none;', '')}">
+                                    <td class="divH2 rightAlign" >
+                                        <div>{!bankAccount.bank}</div>
                                     </td>
                                 </tr>
-                                <tr style="{!IF(invDTO.fromAccount.billingPostalCodeAndCity == null , 'display: none;', '')}">
-                                    <td></td>
-                                    <td class="divH2 rightAlign  smallLeftPadding">
-                                        <div>{!invDTO.fromAccount.billingPostalCodeAndCity}</div>
+                                <tr style="{!IF(bankAccount.bank == null , 'display: none;', '')}">
+                                    <td class="divH2 rightAlign" >
+                                        <div style="margin-bottom: 20px;">{!bankAccount.name}</div>
                                     </td>
                                 </tr>
-                                <tr style="{!IF(invDTO.fromAccount.billingCountry == null || invDTO.toAccount.billingCountry == invDTO.fromAccount.billingCountry , 'display: none;', '')}">
-                                    <td></td>
-                                    <td class="divH2 rightAlign  smallLeftPadding">
-                                        <div>{!invDTO.fromAccount.billingCountry}</div>
-                                    </td>
-                                </tr>
-                                <tr style="{!IF(invDTO.fromAccount.invoicePhone == null , 'display: none;', '')}">
-                                    <td></td>
-                                    <td class="divH2 rightAlign  smallLeftPadding">
-                                        <div>{!invDTO.fromAccount.invoicePhone}</div>
-                                    </td>
-                                </tr>
-                                <tr style="{!IF(invDTO.fromAccount.invoiceEmail == null , 'display: none;', '')}">
-                                    <td></td>
-                                    <td class="divH2 rightAlign italic smallLeftPadding">
-                                        <div>{!invDTO.fromAccount.invoiceEmail}</div>
-                                    </td>
-                                </tr>
-                                <tr style="{!IF(invDTO.fromAccount.taxId == null , 'display: none;', '')}">
-                                    <td></td>
-                                    <td class="divH2 rightAlign italic smallLeftPadding">
-                                        <div>{!$Label.wunderbricks__Tax_Id}: {!invDTO.fromAccount.taxId}</div>
-                                    </td>
-                                </tr>
-                                <tr style="{!IF(invDTO.fromAccount.cocNumber == null , 'display: none;', '')}">
-                                    <td></td>
-                                    <td class="divH2 rightAlign italic smallLeftPadding">
-                                        <div>{!$Label.wunderbricks__CoC_Number}: {!invDTO.fromAccount.cocNumber}</div>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
+                            </apex:repeat>
+                            <tr style="{!IF(invDTO.fromAccount.taxId == null , 'display: none;', '')}">
+                                <td class="divH2 rightAlign">
+                                    <div>{!$Label.wunderbricks__Tax_Id} {!invDTO.fromAccount.taxId}</div>
+                                </td>
+                            </tr>
+                            <tr style="{!IF(invDTO.fromAccount.cocNumber == null , 'display: none;', '')}">
+                                <td class="divH2 rightAlign">
+                                    <div>{!$Label.wunderbricks__CoC_Number} {!invDTO.fromAccount.cocNumber}</div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <!-- Top Left: Invoice Type Label -->
+                <td class="leftSide invoiceLabel">
+                    <div class="divH1 paddingX" style="text-align: left; text-transform: uppercase;">{!invDTO.invoiceNumber}</div>
                 </td>
             </tr>
             <tr>
                 <!-- Bottom Left: Invoice Details -->
                 <td class="leftSide">
-                    <div class="paddingBottom">
-                        <table class="infoTable">
-                            <tbody>
-                                <tr>
-                                    <td class="fieldHeader leftAlign" style="width: 1.2in; padding-right: 0.1in;">
-                                        <div>{!$Label.wunderbricks__Invoice_number}:</div>
-                                    </td>
-                                    <td class="divH2 leftAlign  smallLeftPadding">
-                                        <div>{!invDTO.invoiceNumber}</div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="fieldHeader leftAlign" style="width: 1.2in; padding-right: 0.1in;">
-                                        <div>{!$Label.wunderbricks__Debtor_number}:</div>
-                                    </td>
-                                    <td class="divH2 leftAlign  smallLeftPadding">
-                                        <div>{!invDTO.toAccount.debtorNumber}</div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="fieldHeader leftAlign" style="width: 1.2in; padding-right: 0.1in;">
-                                        <div>{!$Label.wunderbricks__Invoice_date}:</div>
-                                    </td>
-                                    <td class="divH2 leftAlign  smallLeftPadding">
-                                        <div>{!invDTO.invoiceDate}</div>
-                                    </td>
-                                </tr>
-                                <tr style="{!IF(invDTO.invoiceType == 'Credit' , 'display: none;', '')}">
-                                    <td class="fieldHeader leftAlign" style="width: 1.2in; padding-right: 0.1in;">
-                                        <div>{!$Label.wunderbricks__Payment_due_date_label}:</div>
-                                    </td>
-                                    <td class="divH2 leftAlign  smallLeftPadding">
-                                        <div>{!invDTO.paymentDueDate}</div>
-                                    </td>
-                                </tr>
-                                <tr style="{!IF(invDTO.invoiceType == 'Debit' , 'display: none;', '')}">
-                                    <td class="fieldHeader leftAlign" style="width: 1.4in; padding-right: 0.1in;">
-                                        <div>{!$Label.wunderbricks__Payment_Term_days_label}:</div>
-                                    </td>
-                                    <td class="divH2 leftAlign  smallLeftPadding">
-                                        <div>{!invDTO.paymentTermDays}</div>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
+                    <table class="infoTable">
+                        <tbody>
+                            <tr>
+                                <td class="divH2 leftAlign">
+                                    <div><span style="font-weight: bold">Onderwerp: </span>{!invDTO.invoiceStartDate} t/m {!invDTO.invoiceEndDate}</div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="divH2 leftAlign">
+                                    <div>Project: {!invDTO.complexName}</div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="divH2 leftAlign">
+                                    <div>Eenheid: {!invDTO.leasePONumber}</div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </td>
                 <!-- Bottom Right: Empty -->
-                <td></td>
+                <td>
+                    <table class="infoTable">
+                        <tbody>
+                            <tr>
+                                <td class="divH2 rightAlign">
+                                    {!$Label.wunderbricks__Invoice_date}: {!invDTO.invoiceDate}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="divH2 rightAlign">
+                                    {!$Label.wunderbricks__Payment_due_date_label}: {!invDTO.paymentDueDate}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </td>
             </tr>
         </table>
-        <table class="invoiceItemsTable" style="width: 100%;">
+        <table class="invoiceItemsTable">
             <thead>
                 <tr class="trRow">
-                    <th class="borderAndPadding leftAlign" style="width: 2.80in;">
+                    <th class="noPadding leftAlign" style="width: 75%">
                         <div>{!$Label.wunderbricks__Description}</div>
                     </th>
-                    <th class="borderAndPadding leftAlign" style="width: 1.82in;">
-                        <div>{!$Label.wunderbricks__Period}</div>
-                    </th>
-                    <th class="borderAndPadding rightAlign" style="width: 0.90in;">
+                    <th class="noPadding rightAlign" style="width: 300px">
                         <div>{!$Label.wunderbricks__Amount_label}</div>
                     </th>
-                    <th class="borderAndPadding rightAlign" style="width: 0.70in;">
+                    <th class="noPadding rightAlign" style="width: 300px;">
                         <div>{!$Label.wunderbricks__VAT_Percent_Label}</div>
-                    </th>
-                    <th class="borderAndPadding rightAlign" style="width: 0.81in;">
-                        <div>{!$Label.wunderbricks__VAT_Input_Label}</div>
-                    </th>
-                    <th class="borderAndPadding rightAlign" style="width: 0.90in;">
-                        <div>{!$Label.wunderbricks__Total_label}</div>
                     </th>
                 </tr>
             </thead>
             <tbody>
                 <apex:repeat value="{!invDTO.invoiceItems}" var="invoiceItem">
                     <tr class="trRow" >
-                        <td class="borderAndPadding leftAlign">
-                            <div class="value highlight-property">{!invoiceItem.propertyName}</div>
-                            <div class="value">{!invoiceItem.unitName}</div>
-                            <div class="value italic">{!invoiceItem.chargeType}</div>
-                            <div class="value italic">{!invoiceItem.description}</div>
+                        <td class="noPadding leftAlign">
+                            <div class="value">{!invoiceItem.chargeType}</div>
                         </td>
-                        <td class="borderAndPadding leftAlign">
-                            <div>{!invoiceItem.periodStartDateStr} - {!invoiceItem.periodEndDateStr}</div>
-                        </td>
-                        <td class="borderAndPadding rightAlign">
+                        <td class="noPadding rightAlign">
                             {!$Label.wunderbricks__Euro_sign} {!invoiceItem.amountExclVat} 
                         </td>
-                        <td class="borderAndPadding rightAlign">
+                        <td class="noPadding rightAlign">
                             {!invoiceItem.vatRate} {!$Label.wunderbricks__Percent_sign}
-                        </td>
-                        <td class="borderAndPadding rightAlign">
-                            {!$Label.wunderbricks__Euro_sign} {!invoiceItem.vatAmount} 
-                        </td>
-                        <td class="borderAndPadding rightAlign">
-                            {!$Label.wunderbricks__Euro_sign} {!invoiceItem.amountInclVAT} 
-                        </td>                         
+                        </td>                     
                     </tr>
                 </apex:repeat>
-                <tr class="trRow" style="font-weight: bold;">
-                    <td class="borderAndPadding" colspan="5">
-                        <div>{!IF(invDTO.invoiceType == 'Credit', $Label.wunderbricks__Total_to_receive_label, $Label.wunderbricks__Total_to_pay)}</div>
+                <tr class="trRow">
+                    <th class="noPadding rightAlign">
+                        {!$Label.wunderbricks__Subtotal_label}
+                    </th>
+                    <td class="noPadding rightAlign">
+                        {!$Label.wunderbricks__Euro_sign} {!invDTO.totalAmountExclVAT}
                     </td>
-                    <td  class="borderAndPadding rightAlign">
-                        {!$Label.wunderbricks__Euro_sign} {!invDTO.totalAmountInclVAT} 
-                    </td>                         
+                </tr>
+                <tr class="trRow">
+                    <th class="noPadding rightAlign">
+                        BTW
+                    </th>
+                    <td class="noPadding rightAlign">
+                        {!$Label.wunderbricks__Euro_sign} {!invDTO.totalVAT}
+                    </td>
+                </tr>
+                <tr class="trRow">
+                    <th class="noPadding rightAlign">
+                        {!$Label.wunderbricks__Total_label}
+                    </th>
+                    <td class="noPadding rightAlign">
+                        {!$Label.wunderbricks__Euro_sign} {!invDTO.totalAmountInclVAT}
+                    </td>
                 </tr>
             </tbody>
         </table>
         <div class="invoiceMessage">
             <apex:outputText escape="false" value="{!paymentMethodMessage}"></apex:outputText>
-        </div>
-        <div>
-            <table class="infoTable">
-                <tbody>
-                    <apex:repeat value="{!invDTO.bankAccounts}" var="bankAccount">
-                        <br/>
-
-                        <tr>
-                            <td class="fieldHeader leftAlign" style="width: 1.1in;">
-                                <div>{!$Label.wunderbricks__IBAN}:</div>
-                            </td>
-                            <td class="divH2 leftAlign smallLeftPadding">
-                                <div>{!bankAccount.name}</div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="fieldHeader leftAlign" style="width: 1.1in;">
-                                <div>{!$Label.wunderbricks__BIC}:</div>
-                            </td>
-                            <td class="divH2 leftAlign smallLeftPadding">
-                                <div>{!bankAccount.BIC}</div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="fieldHeader leftAlign" style="width: 1.1in;">
-                                <div>{!$Label.wunderbricks__Beneficiary_Name_label}:</div>
-                            </td>
-                            <td class="divH2 leftAlign smallLeftPadding">
-                                <div>{!bankAccount.accountHolderName}</div>
-                            </td>
-                        </tr>
-                    </apex:repeat>
-                </tbody>
-            </table>
         </div>
         <div class="creditInvoiceDetails" style="{!IF(invDTO.invoiceType == 'Debit' , 'display: none;', '')}">
             <table class="infoTable">
@@ -394,7 +344,7 @@
                         <td class="fieldHeader leftAlign" style="width: 1in; padding-right: 0.15in;">
                             <div>{!$Label.wunderbricks__Bank_Account_label}:</div>
                         </td>
-                        <td class="divH2 leftAlign smallLeftPadding">
+                        <td class="divH2 leftAlign">
                             <div>{!invDTO.paidToBankAccount}</div>
                         </td>
                     </tr>
