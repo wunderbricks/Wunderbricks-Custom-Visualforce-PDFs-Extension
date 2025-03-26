@@ -1,4 +1,4 @@
-<apex:page standardController="wunderbricks__Invoice__c" docType="html-5.0" renderAs="PDF" extensions="CustomInvoicePdfController" showHeader="false" standardStylesheets="false" applyBodyTag="false" applyHtmlTag="false" language="{!$CurrentPage.parameters.lang}">
+<apex:page standardController="wunderbricks__Invoice__c" docType="html-5.0" renderAs="PDF" extensions="wunderbricks.CustomInvoicePdfController" showHeader="false" standardStylesheets="false" applyBodyTag="false" applyHtmlTag="false" language="{!$CurrentPage.parameters.lang}">
     <head>
         <style type="text/css">
             body {
@@ -136,7 +136,7 @@
         <table class="headerTable">
             <tr>
                 <!-- Middle Left: Tenant Details -->
-                <td class="leftSide">
+                <td class="leftSide" style="vertical-align: bottom;">
                     <table class="infoTable">
                         <tbody>
                             <tr>
@@ -204,7 +204,7 @@
                             <apex:repeat value="{!invDTO.bankAccounts}" var="bankAccount">
                                 <tr style="{!IF(bankAccount.accountHolderName == null , 'display: none;', '')}" >
                                     <td class="divH2 rightAlign">
-                                        <div>{!bankAccount.accountHolderName}</div>
+                                        <div>T.n.v.: {!bankAccount.accountHolderName}</div>
                                     </td>
                                 </tr>
                                 <tr style="{!IF(bankAccount.bank == null , 'display: none;', '')}">
@@ -214,18 +214,18 @@
                                 </tr>
                                 <tr style="{!IF(bankAccount.bank == null , 'display: none;', '')}">
                                     <td class="divH2 rightAlign" >
-                                        <div style="margin-bottom: 20px;">{!bankAccount.name}</div>
+                                        <div style="margin-bottom: 20px;">IBAN: {!bankAccount.name}</div>
                                     </td>
                                 </tr>
                             </apex:repeat>
                             <tr style="{!IF(invDTO.fromAccount.taxId == null , 'display: none;', '')}">
                                 <td class="divH2 rightAlign">
-                                    <div>{!$Label.wunderbricks__Tax_Id} {!invDTO.fromAccount.taxId}</div>
+                                    <div>{!$Label.wunderbricks__Tax_Id}: {!invDTO.fromAccount.taxId}</div>
                                 </td>
                             </tr>
                             <tr style="{!IF(invDTO.fromAccount.cocNumber == null , 'display: none;', '')}">
                                 <td class="divH2 rightAlign">
-                                    <div>{!$Label.wunderbricks__CoC_Number} {!invDTO.fromAccount.cocNumber}</div>
+                                    <div>{!$Label.wunderbricks__CoC_Number}: {!invDTO.fromAccount.cocNumber}</div>
                                 </td>
                             </tr>
                         </tbody>
@@ -235,7 +235,7 @@
             <tr>
                 <!-- Top Left: Invoice Type Label -->
                 <td class="leftSide invoiceLabel">
-                    <div class="divH1 paddingX" style="text-align: left; text-transform: uppercase;">{!invDTO.invoiceNumber}</div>
+                    <div class="divH1 paddingX" style="text-align: left; text-transform: uppercase;">{!IF(invDTO.invoiceType == 'Credit', $Label.Credit_Invoice_label, $Label.Invoice)} {!invDTO.invoiceNumber}</div>
                 </td>
             </tr>
             <tr>
@@ -255,7 +255,12 @@
                             </tr>
                             <tr>
                                 <td class="divH2 leftAlign">
-                                    <div>Eenheid: {!invDTO.leasePONumber}</div>
+                                    <div>Eenheid: {!invDTO.propertyAddress}</div>
+                                </td>
+                            </tr>
+                            <tr style="{!IF(invDTO.leasePONumber == null , 'display: none;', '')}">
+                                <td class="divH2 leftAlign">
+                                    <div>PO Nummer: {!invDTO.leasePONumber}</div>
                                 </td>
                             </tr>
                         </tbody>
@@ -310,7 +315,7 @@
                 </apex:repeat>
                 <tr class="trRow">
                     <th class="noPadding rightAlign">
-                        {!$Label.wunderbricks__Subtotal_label}
+                        Subtotaal
                     </th>
                     <td class="noPadding rightAlign">
                         {!$Label.wunderbricks__Euro_sign} {!invDTO.totalAmountExclVAT}

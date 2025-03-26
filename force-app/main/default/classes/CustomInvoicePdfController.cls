@@ -12,11 +12,14 @@ public inherited sharing class CustomInvoicePdfController {
     public CustomInvoicePdfController(ApexPages.StandardController stdController) {
         invDTO = getCustomInvoiceDTO((wunderbricks__Invoice__c) stdController.getRecord());
         paymentMethodMessage = String.format(
-            System.Label.get('wunderbricks', 'Invoice_PDF_Payment_Method_Message'),
+            'We verzoeken u het bovenstaande bedrag van {5} {0} voor {1} te voldoen op bankrekening {2} t.n.v. {3} onder vermelding van het factuurnummer {4}.',
             new List<String>{
                 invDTO.totalAmountInclVAT,
                 invDTO.paymentDueDate,
-                invDTO.invoiceNumber
+                invDTO.bankAccounts[0].name,
+                invDTO.fromAccount.name,
+                invDTO.invoiceNumber,
+                System.Label.get('wunderbricks', 'Euro_sign')
             }
         );
 
@@ -53,7 +56,12 @@ public inherited sharing class CustomInvoicePdfController {
             wunderbricks__Property__c, 
             wunderbricks__Property__r.wunderbricks__Name__c, 
             wunderbricks__Property__r.Name, 
-            wunderbricks__Property__r.wunderbricks__Complex__r.Name, 
+            wunderbricks__Property__r.wunderbricks__Complex__r.Name,
+            wunderbricks__Property__r.wunderbricks__Address__c,
+            wunderbricks__Property__r.wunderbricks__Street_Name__c,
+            wunderbricks__Property__r.wunderbricks__Street_Number__c,
+            wunderbricks__Property__r.wunderbricks__Zip_Postal_Code__c,
+            wunderbricks__Property__r.wunderbricks__City__c,
             wunderbricks__Payment_Due_Date__c, 
             wunderbricks__Paid_From_Bank_Account__r.Name, 
             wunderbricks__Paid_To_Bank_Account__r.Name,
@@ -131,6 +139,7 @@ public inherited sharing class CustomInvoicePdfController {
                             wunderbricks__VAT_Code__c
                     FROM
                             wunderbricks__Invoice_Items__r
+                	ORDER BY wunderbricks__Charge_Type__c ASC
             )
             FROM wunderbricks__Invoice__c
             WHERE Id = :inv.Id

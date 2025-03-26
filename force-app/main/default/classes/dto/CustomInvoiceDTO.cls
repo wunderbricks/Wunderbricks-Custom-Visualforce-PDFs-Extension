@@ -1,9 +1,9 @@
 /**
- * Created by vitalygaiduchok on 15/03/2021.
- */
+* Created by vitalygaiduchok on 15/03/2021.
+*/
 
 public inherited sharing class CustomInvoiceDTO {
-
+    
     public String invoiceNumber                      {get; set;}
     public String invoiceDate                        {get; set;}
     public String paymentDueDate                     {get; set;}
@@ -21,11 +21,14 @@ public inherited sharing class CustomInvoiceDTO {
     public Decimal paymentTermDays                   {get; set;}
     public String invoiceLanguage                    {get; set;}
     public String complexName                        {get; set;}
+    public String propertyAddress                    {get; set;}
     public String leasePONumber                      {get; set;}
     public String invoiceStartDate                   {get; set;}
     public String invoiceEndDate                     {get; set;}
-
+    
     public CustomInvoiceDTO(wunderbricks__Invoice__c invoice, String invoiceMessage, CustomAccountDTO fromAccount, List<CustomBankAccountDTO> bankAccounts, CustomAccountDTO toAccount, List<CustomInvoiceItemDTO> invoiceItems) {
+        wunderbricks__Property__c prop = invoice.wunderbricks__Property__r;
+        
         this.invoiceNumber          = invoice.Name;
         this.invoiceDate            = invoice.wunderbricks__Invoice_Date__c != null ? generateFullDayOrMonthNumber(invoice.wunderbricks__Invoice_Date__c.day()) + '/' + generateFullDayOrMonthNumber(invoice.wunderbricks__Invoice_Date__c.month()) + '/' + invoice.wunderbricks__Invoice_Date__c.year() : null;
         this.paymentDueDate         = invoice.wunderbricks__Payment_Due_Date__c != null ? generateFullDayOrMonthNumber(invoice.wunderbricks__Payment_Due_Date__c.day()) + '/' + generateFullDayOrMonthNumber(invoice.wunderbricks__Payment_Due_Date__c.month()) + '/' + invoice.wunderbricks__Payment_Due_Date__c.year() : null;
@@ -43,14 +46,15 @@ public inherited sharing class CustomInvoiceDTO {
         this.paymentTermDays        = invoice.wunderbricks__Payment_Term_Days__c;
         this.paymentTermDays        = invoice.wunderbricks__Payment_Term_Days__c;
         this.invoiceLanguage        = invoice.wunderbricks__Invoice_Language__c;
-        this.complexName            = invoice.wunderbricks__Property__r.wunderbricks__Complex__r.Name;
+        this.complexName            = prop.wunderbricks__Complex__r.Name;
+        this.propertyAddress        = prop.wunderbricks__Street_Name__c + ' ' + prop.wunderbricks__Street_Number__c + ', ' + prop.wunderbricks__Zip_Postal_Code__c + ', ' + prop.wunderbricks__City__c;
         this.leasePONumber          = invoice.wunderbricks__Lease__r.PO_Number_Billing__c;
         this.invoiceStartDate       = invoice.wunderbricks__Period_Start_Date_Formula__c != null ? generateFullDayOrMonthNumber(invoice.wunderbricks__Period_Start_Date_Formula__c.day()) + '/' + generateFullDayOrMonthNumber(invoice.wunderbricks__Period_Start_Date_Formula__c.month()) + '/' + invoice.wunderbricks__Period_Start_Date_Formula__c.year() : null;
         this.invoiceEndDate         = invoice.wunderbricks__Period_End_Date_Formula__c != null ? generateFullDayOrMonthNumber(invoice.wunderbricks__Period_End_Date_Formula__c.day()) + '/' + generateFullDayOrMonthNumber(invoice.wunderbricks__Period_End_Date_Formula__c.month()) + '/' + invoice.wunderbricks__Period_End_Date_Formula__c.year() : null;
     }
-
+    
     private String generateFullDayOrMonthNumber(Integer dayOrMonthNumber) {
         return (dayOrMonthNumber < 10 ? '0' : '') + dayOrMonthNumber;
     }
-
+    
 }
