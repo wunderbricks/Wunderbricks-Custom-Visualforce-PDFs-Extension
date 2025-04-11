@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Package xmlns="http://soap.sforce.com/2006/04/metadata">
+	<types>
+		<members>TestUsers</members>
+		<members>CustomAccountDTO</members>
+		<members>CustomBankAccountDTO</members>
+		<members>CustomInvoiceDTO</members>
+		<members>CustomInvoiceItemDTO</members>
+		<members>CustomInvoiceItemDTOBuilder</members>
+		<members>CustomInvoicePdfController</members>
+		<members>CustomInvoicePdfControllerTest</members>
+		<members>CustomUtilityService</members>
+		<name>ApexClass</name>
+	</types>
+	<types>
+		<members>CustomInvoicePDF</members>
+		<name>ApexPage</name>
+	</types>
+	<version>63.0</version>
+</Package>
