@@ -18,21 +18,4 @@ public inherited sharing class CustomInvoiceItemDTO {
 
     public CustomInvoiceItemDTO() {}
 
-    public CustomInvoiceItemDTO(String chargeType, String description, String leaseItem, Date periodStartDate, Date periodEndDate, Decimal amountInclVAT, Decimal amountExclVat, Decimal vatRate, String unitAddress) {
-        this.chargeType = chargeType;
-        this.description = description;
-        this.leaseItem = leaseItem;
-        this.periodStartDateStr = periodStartDate != null ? generateFullDayOrMonthNumber(periodStartDate.day()) + '/' + generateFullDayOrMonthNumber(periodStartDate.month()) + '/' + periodStartDate.year() : null;
-        this.periodEndDateStr = periodEndDate != null ? generateFullDayOrMonthNumber(periodEndDate.day()) + '/' + generateFullDayOrMonthNumber(periodEndDate.month()) + '/' + periodEndDate.year() : null;
-        this.amountInclVAT = CustomUtilityService.getFormattedDecimalString(amountInclVAT);
-        this.amountExclVat = CustomUtilityService.getFormattedDecimalString(amountExclVat);
-        this.vatAmount = CustomUtilityService.getFormattedDecimalString(amountInclVAT - amountExclVat);
-        this.vatRate = CustomUtilityService.getFormattedDecimalString(vatRate, 1);
-        this.unitAddress = unitAddress;
-    }
-
-    private String generateFullDayOrMonthNumber(Integer dayOrMonthNumber) {
-        return (dayOrMonthNumber < 10 ? '0' : '') + dayOrMonthNumber;
-    }
-
 }
