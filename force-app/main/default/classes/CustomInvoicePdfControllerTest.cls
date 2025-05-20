@@ -3,6 +3,7 @@ private class CustomInvoicePdfControllerTest {
     @TestSetup
     static void createData() { 
        TestUsers.setupTestUsers();
+       
        User wbErpUser = [SELECT Id FROM User WHERE Username = 'wbuser@wb.com.usernameeprintegration'];
        System.runAs(wbErpUser) {
             wunderbricks__Invoice_Template__c defaultInvoiceTemplate = new wunderbricks__Invoice_Template__c(
@@ -30,6 +31,25 @@ private class CustomInvoicePdfControllerTest {
                 wunderbricks__Invoice_Template__c = defaultInvoiceTemplate.Id
             );
             insert new List<Account>{ownerAcc, tenantAcc};
+
+            wunderbricks__Bank_Account__c bankAccount = new wunderbricks__Bank_Account__c(
+                Name = 'NL91ABNA0417164300',
+                wunderbricks__Account_Holder_Name__c = 'Current Account',
+                wunderbricks__Account__c = ownerAcc.Id,
+                wunderbricks__BIC__c = 'ABNANL2A',
+                wunderbricks__Bank__c = 'ABN AMRO Bank N.V.'
+            );
+            insert bankAccount;
+
+            wunderbricks__Invoice_Set__c invSet = [SELECT wunderbricks__Charge_Type__c FROM wunderbricks__Invoice_Set__c WHERE wunderbricks__Account__c = :ownerAcc.Id];
+            invSet.wunderbricks__Charge_Type__c = 'Rent;Rent Non-Taxable;Tax Compensation;Rent Electric Parking Taxable;Rent Electric Parking Non-Taxable;Rent Parking Taxable;Rent Parking Non-Taxable;Rent-Free Taxable;Rent-Free Non-Taxable;Rent Discount Taxable;Rent Discount Non-Taxable;Other;Other 2;Other 3;Fixed Service Costs;Service Cost;Utility;Deposit';
+            update invSet;
+
+            wunderbricks__Invoice_Set_Bank_Account__c invSetBankAccount = new wunderbricks__Invoice_Set_Bank_Account__c(
+                wunderbricks__Bank_Account__c = bankAccount.Id,
+                wunderbricks__Invoice_Set__c   = invSet.Id
+            ); 
+            insert invSetBankAccount;
 
             Contact tenantCont = new Contact(Account = tenantAcc, LastName = 'Tenant I');
             Contact ownerAccCont = new Contact(Account = ownerAcc, LastName = 'Owner I');
@@ -60,7 +80,7 @@ private class CustomInvoicePdfControllerTest {
             wunderbricks__Charge_Type_To_GL_Account_Mapping__c defaultMapping = new wunderbricks__Charge_Type_To_GL_Account_Mapping__c(
                 wunderbricks__GL_Account__c  = defaultGLAccount.Id,
                 wunderbricks__Account__c     = ownerAcc.Id,
-                wunderbricks__Charge_Type__c = 'Rent;Service Cost;Utility;Deposit;Tax Compensation;Other'
+                wunderbricks__Charge_Type__c = 'Rent;Rent Non-Taxable;Tax Compensation;Rent Electric Parking Taxable;Rent Electric Parking Non-Taxable;Rent Parking Taxable;Rent Parking Non-Taxable;Rent-Free Taxable;Rent-Free Non-Taxable;Rent Discount Taxable;Rent Discount Non-Taxable;Other;Other 2;Other 3;Fixed Service Costs;Service Cost;Utility;Deposit'
             );
             insert defaultMapping;
 

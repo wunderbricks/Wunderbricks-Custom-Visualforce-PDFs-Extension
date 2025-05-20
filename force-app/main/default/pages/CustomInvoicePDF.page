@@ -1,4 +1,4 @@
-<apex:page standardController="wunderbricks__Invoice__c" docType="html-5.0" renderAs="PDF" extensions="wunderbricks.CustomInvoicePdfController" showHeader="false" standardStylesheets="false" applyBodyTag="false" applyHtmlTag="false" language="{!$CurrentPage.parameters.lang}">
+<apex:page standardController="wunderbricks__Invoice__c" docType="html-5.0" renderAs="PDF" extensions="CustomInvoicePdfController" showHeader="false" standardStylesheets="false" applyBodyTag="false" applyHtmlTag="false" language="{!$CurrentPage.parameters.lang}">
     <head>
         <style type="text/css">
             body {
@@ -235,7 +235,7 @@
             <tr>
                 <!-- Top Left: Invoice Type Label -->
                 <td class="leftSide invoiceLabel">
-                    <div class="divH1 paddingX" style="text-align: left; text-transform: uppercase;">{!IF(invDTO.invoiceType == 'Credit', $Label.Credit_Invoice_label, $Label.Invoice)} {!invDTO.invoiceNumber}</div>
+                    <div class="divH1 paddingX" style="text-align: left; text-transform: uppercase;">{!IF(invDTO.invoiceType == 'Credit', $Label.wunderbricks__Credit_Invoice_label, $Label.wunderbricks__Invoice)} {!invDTO.invoiceNumber}</div>
                 </td>
             </tr>
             <tr>
@@ -303,7 +303,9 @@
                 <apex:repeat value="{!invDTO.invoiceItems}" var="invoiceItem">
                     <tr class="trRow" >
                         <td class="noPadding leftAlign">
-                            <div class="value">{!invoiceItem.chargeType}</div>
+                            <div class="value">
+                                {!IF(invoiceItem.description != null , invoiceItem.description, invoiceItem.chargeType)}
+                            </div>
                         </td>
                         <td class="noPadding rightAlign">
                             {!$Label.wunderbricks__Euro_sign} {!invoiceItem.amountExclVat} 
