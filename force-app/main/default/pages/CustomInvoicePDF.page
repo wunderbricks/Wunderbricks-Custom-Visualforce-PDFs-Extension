@@ -140,6 +140,13 @@
                     <table class="infoTable">
                         <tbody>
                             <tr>
+                                <td class="leftAlign">
+                                    <div class="paddingBottom">
+                                        <img class="imageLogo logoHeight" src="{!invDTO.fromAccount.logoURL}" />
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
                                 <td class="divH2 leftAlign" style="font-weight: bold;">
                                     <div>{!invDTO.toAccount.name}</div>
                                 </td>
@@ -245,15 +252,15 @@
                         <tbody>
                             <tr>
                                 <td class="divH2 leftAlign">
-                                    <div><span style="font-weight: bold">Onderwerp: </span>{!invDTO.invoiceStartDate} t/m {!invDTO.invoiceEndDate}</div>
+                                    <div><span style="font-weight: bold">Onderwerp: </span>{!onderwerpMessage}</div>
                                 </td>
                             </tr>
-                            <tr>
+                            <tr style="{!IF(invDTO.complexName == null , 'display: none;', '')}">
                                 <td class="divH2 leftAlign">
                                     <div>Project: {!invDTO.complexName}</div>
                                 </td>
                             </tr>
-                            <tr>
+                            <tr style="{!IF(invDTO.propertyAddress == null , 'display: none;', '')}">
                                 <td class="divH2 leftAlign">
                                     <div>Eenheid: {!invDTO.propertyAddress}</div>
                                 </td>

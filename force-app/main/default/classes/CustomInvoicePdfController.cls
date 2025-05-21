@@ -1,6 +1,7 @@
 public inherited sharing class CustomInvoicePdfController {
 
     public CustomInvoiceDTO invDTO {get; set;}
+    public String onderwerpMessage {get; set;}
     public String paymentMethodMessage {get; set;}
 
     final public static string INVOICE_TYPE_DEBIT = 'Debit';
@@ -23,6 +24,8 @@ public inherited sharing class CustomInvoicePdfController {
             }
         );
 
+        onderwerpMessage = getOnderwerpMessage();
+
         //Set specific name of pdf file
         Apexpages.currentPage().getHeaders().put('content-disposition', 'inline; filename=' + invDTO.invoiceNumber + '.pdf');
     }
@@ -31,6 +34,8 @@ public inherited sharing class CustomInvoicePdfController {
         wunderbricks__Invoice__c invoice = [SELECT
             Id,
             Name,
+            Single_Invoice__c,
+            wunderbricks__Description__c,
             wunderbricks__From__c,
             wunderbricks__Administration_Account__c,
             wunderbricks__To__c,
@@ -43,7 +48,7 @@ public inherited sharing class CustomInvoicePdfController {
             wunderbricks__Total_excl_VAT__c,
             wunderbricks__Type__c,
             wunderbricks__Lease__c,
-            wunderbricks__Lease__r.PO_Number_Billing__c,
+            PO_Billing_Number__c,
             wunderbricks__Paid_From_Bank_Account__c,
             wunderbricks__Paid_To_Bank_Account__c,
             wunderbricks__Journal__c,
@@ -236,5 +241,13 @@ public inherited sharing class CustomInvoicePdfController {
         );
     }
     
-    
+    private String getOnderwerpMessage() {
+        String onderwerpMessage = '';
+        if (invDTO.isSingleInvoice == true) {
+            onderwerpMessage = invDTO.description;
+        } else {
+            onderwerpMessage = invDTO.invoiceStartDate + ' t/m ' + invDTO.invoiceEndDate;
+        }
+        return onderwerpMessage;
+    }
 }
