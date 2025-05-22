@@ -56,7 +56,7 @@ public inherited sharing class CustomInvoiceDTO {
         this.invoiceStartDate       = invoice.wunderbricks__Period_Start_Date_Formula__c != null ? generateFullDayOrMonthNumber(invoice.wunderbricks__Period_Start_Date_Formula__c.day()) + '/' + generateFullDayOrMonthNumber(invoice.wunderbricks__Period_Start_Date_Formula__c.month()) + '/' + invoice.wunderbricks__Period_Start_Date_Formula__c.year() : null;
         this.invoiceEndDate         = invoice.wunderbricks__Period_End_Date_Formula__c != null ? generateFullDayOrMonthNumber(invoice.wunderbricks__Period_End_Date_Formula__c.day()) + '/' + generateFullDayOrMonthNumber(invoice.wunderbricks__Period_End_Date_Formula__c.month()) + '/' + invoice.wunderbricks__Period_End_Date_Formula__c.year() : null;
         this.description            = invoice.wunderbricks__Description__c;
-        this.isSingleInvoice        = invoice.Single_Invoice__c;
+        this.isSingleInvoice        = invoice.Is_Single_Invoice__c;
     }
     
     private String generateFullDayOrMonthNumber(Integer dayOrMonthNumber) {

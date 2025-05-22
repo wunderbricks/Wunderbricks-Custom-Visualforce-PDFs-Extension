@@ -34,7 +34,7 @@ public inherited sharing class CustomInvoicePdfController {
         wunderbricks__Invoice__c invoice = [SELECT
             Id,
             Name,
-            Single_Invoice__c,
+            Is_Single_Invoice__c,
             wunderbricks__Description__c,
             wunderbricks__From__c,
             wunderbricks__Administration_Account__c,
