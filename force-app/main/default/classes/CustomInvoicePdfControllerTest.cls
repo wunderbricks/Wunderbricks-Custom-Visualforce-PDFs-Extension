@@ -42,7 +42,7 @@ private class CustomInvoicePdfControllerTest {
             insert bankAccount;
 
             wunderbricks__Invoice_Set__c invSet = [SELECT wunderbricks__Charge_Type__c FROM wunderbricks__Invoice_Set__c WHERE wunderbricks__Account__c = :ownerAcc.Id];
-            invSet.wunderbricks__Charge_Type__c = 'Rent;Rent Non-Taxable;Tax Compensation;Rent Electric Parking Taxable;Rent Electric Parking Non-Taxable;Rent Parking Taxable;Rent Parking Non-Taxable;Rent-Free Taxable;Rent-Free Non-Taxable;Rent Discount Taxable;Rent Discount Non-Taxable;Other;Other 2;Other 3;Fixed Service Costs;Service Cost;Utility;Deposit';
+            invSet.wunderbricks__Charge_Type__c = getPickVals('wunderbricks__Invoice_Set__c', 'wunderbricks__Charge_Type__c');
             update invSet;
 
             wunderbricks__Invoice_Set_Bank_Account__c invSetBankAccount = new wunderbricks__Invoice_Set_Bank_Account__c(
@@ -80,7 +80,7 @@ private class CustomInvoicePdfControllerTest {
             wunderbricks__Charge_Type_To_GL_Account_Mapping__c defaultMapping = new wunderbricks__Charge_Type_To_GL_Account_Mapping__c(
                 wunderbricks__GL_Account__c  = defaultGLAccount.Id,
                 wunderbricks__Account__c     = ownerAcc.Id,
-                wunderbricks__Charge_Type__c = 'Rent;Rent Non-Taxable;Tax Compensation;Rent Electric Parking Taxable;Rent Electric Parking Non-Taxable;Rent Parking Taxable;Rent Parking Non-Taxable;Rent-Free Taxable;Rent-Free Non-Taxable;Rent Discount Taxable;Rent Discount Non-Taxable;Other;Other 2;Other 3;Fixed Service Costs;Service Cost;Utility;Deposit'
+                wunderbricks__Charge_Type__c = getPickVals('wunderbricks__Charge_Type_To_GL_Account_Mapping__c', 'wunderbricks__Charge_Type__c')
             );
             insert defaultMapping;
 
@@ -151,7 +151,7 @@ private class CustomInvoicePdfControllerTest {
                 wunderbricks__Unit__c     = unitObj.Id,
                 wunderbricks__VAT_Code__c = vatCode.Id,
                 wunderbricks__Unit_Price__c             = 0,
-                wunderbricks__Component__c              = 'Rent',
+                wunderbricks__Component__c              = 'Rent Taxable',
                 wunderbricks__End_Date__c               = leasePeriod.wunderbricks__Expiry_Date__c,
                 wunderbricks__Description__c            = 'cli description'
             );
@@ -225,5 +225,18 @@ private class CustomInvoicePdfControllerTest {
             System.assert('181,50' == invPdfController.invDTO.totalAmountInclVAT || '181.50' == invPdfController.invDTO.totalAmountInclVAT, 'Total amount including VAT should be the same.');
             System.assert('31,50' == invPdfController.invDTO.totalVAT || '31.50' == invPdfController.invDTO.totalVAT, 'Total VAT amount should be the same.');
         }
+    }
+
+
+    private static string getPickVals(String objectName, String fieldName) {
+        Schema.DescribeFieldResult fieldResult = Schema.getGlobalDescribe().get(objectName).getDescribe().fields.getMap().get(fieldName).getDescribe();
+        List<Schema.PicklistEntry> picklistValues = fieldResult.getPicklistValues();
+
+        List<String> values = new List<String>();
+        for (Schema.PicklistEntry entry : picklistValues) {
+            values.add(entry.getValue());
+        }
+        String result = String.join(values, ';');
+        return result;
     }
 }

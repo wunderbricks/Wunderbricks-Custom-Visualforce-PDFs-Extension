@@ -282,7 +282,7 @@
                                     {!$Label.wunderbricks__Invoice_date}: {!invDTO.invoiceDate}
                                 </td>
                             </tr>
-                            <tr>
+                            <tr style="{!IF(invDTO.paymentDueDate == null, 'display: none;', '')}">
                                 <td class="divH2 rightAlign">
                                     {!$Label.wunderbricks__Payment_due_date_label}: {!invDTO.paymentDueDate}
                                 </td>
@@ -351,7 +351,7 @@
         <div class="invoiceMessage">
             <apex:outputText escape="false" value="{!paymentMethodMessage}"></apex:outputText>
         </div>
-        <div class="creditInvoiceDetails" style="{!IF(invDTO.invoiceType == 'Debit' , 'display: none;', '')}">
+        <div class="creditInvoiceDetails" style="{!IF(invDTO.invoiceType == 'Debit' || invDTO.paidToBankAccount == null, 'display: none;', '')}">
             <table class="infoTable">
                 <tbody>
                     <tr>

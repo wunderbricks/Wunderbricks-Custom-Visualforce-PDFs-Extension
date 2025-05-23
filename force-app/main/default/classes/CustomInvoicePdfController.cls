@@ -12,17 +12,7 @@ public inherited sharing class CustomInvoicePdfController {
 
     public CustomInvoicePdfController(ApexPages.StandardController stdController) {
         invDTO = getCustomInvoiceDTO((wunderbricks__Invoice__c) stdController.getRecord());
-        paymentMethodMessage = String.format(
-            'We verzoeken u het bovenstaande bedrag van {5} {0} voor {1} te voldoen op bankrekening {2} t.n.v. {3} onder vermelding van het factuurnummer {4}.',
-            new List<String>{
-                invDTO.totalAmountInclVAT,
-                invDTO.paymentDueDate,
-                invDTO.bankAccounts[0].name,
-                invDTO.fromAccount.name,
-                invDTO.invoiceNumber,
-                System.Label.get('wunderbricks', 'Euro_sign')
-            }
-        );
+        paymentMethodMessage = getPaymentMethodMessage();
 
         onderwerpMessage = getOnderwerpMessage();
 
@@ -160,7 +150,19 @@ public inherited sharing class CustomInvoicePdfController {
         if (invoice.wunderbricks__Type__c == INVOICE_TYPE_DEBIT) {
             // If there's no charge type set on the invoice then display all the bank accounts on the account
             if (String.isBlank(invoice.wunderbricks__Charge_Type__c)) {
-                for (wunderbricks__Bank_Account__c bankAccount : [SELECT Id, Name, wunderbricks__Account__c, wunderbricks__Account_Holder_Name__c, wunderbricks__Bank__c, wunderbricks__BIC__c, wunderbricks__Description__c FROM wunderbricks__Bank_Account__c WHERE wunderbricks__Account__c = :bankDetailsAccount.Id]) {
+                for (wunderbricks__Bank_Account__c bankAccount : [
+                        SELECT 
+                            Id, 
+                            Name, 
+                            wunderbricks__Account__c,
+                            wunderbricks__Account_Holder_Name__c, 
+                            wunderbricks__Bank__c, 
+                            wunderbricks__BIC__c, 
+                            wunderbricks__Description__c 
+                        FROM wunderbricks__Bank_Account__c 
+                        WHERE wunderbricks__Account__c = :bankDetailsAccount.Id
+                    ]
+                ) {
                     bankAccounts.add(new CustomBankAccountDTO(
                         bankAccount.Name,
                         bankAccount.wunderbricks__Account_Holder_Name__c,
@@ -249,5 +251,23 @@ public inherited sharing class CustomInvoicePdfController {
             onderwerpMessage = invDTO.invoiceStartDate + ' t/m ' + invDTO.invoiceEndDate;
         }
         return onderwerpMessage;
+    }
+
+    private String getPaymentMethodMessage() {
+        String paymentMethodMessage = '';
+        for (CustomBankAccountDTO bankAcc : invDTO.bankAccounts) {
+            paymentMethodMessage += String.format(
+                '<p>We verzoeken u het bovenstaande bedrag van {5} {0} voor {1} te voldoen op bankrekening {2} t.n.v. {3} onder vermelding van het factuurnummer {4}.</p>',
+                new List<String>{
+                    invDTO.totalAmountInclVAT,
+                    invDTO.paymentDueDate,
+                    bankAcc.name,
+                    invDTO.fromAccount.name,
+                    invDTO.invoiceNumber,
+                    System.Label.get('wunderbricks', 'Euro_sign')
+                }
+            );
+        }
+        return paymentMethodMessage;
     }
 }
