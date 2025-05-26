@@ -139,13 +139,13 @@
                 <td class="leftSide" style="vertical-align: bottom;">
                     <table class="infoTable">
                         <tbody>
-                            <tr>
+                            <!-- <tr>
                                 <td class="leftAlign">
                                     <div class="paddingBottom">
                                         <img class="imageLogo logoHeight" src="{!invDTO.fromAccount.logoURL}" />
                                     </div>
                                 </td>
-                            </tr>
+                            </tr> -->
                             <tr>
                                 <td class="divH2 leftAlign" style="font-weight: bold;">
                                     <div>{!invDTO.toAccount.name}</div>
