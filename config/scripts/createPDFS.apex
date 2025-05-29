@@ -1,5 +1,5 @@
 Set<Id> test = new Set<Id>{
-    'a0fd1000000Kb6iAAC'
+    'xxxx'
 };
     Map<Id, wunderbricks__Invoice__c> invoiceMap = new Map<Id, wunderbricks__Invoice__c>(
         [
