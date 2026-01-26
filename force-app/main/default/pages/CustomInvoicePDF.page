@@ -370,7 +370,7 @@
                                 <div>{!bankAccount.name}</div>
                             </td>
                         </tr>
-                        <tr>
+                        <tr style="{!IF(invDTO.invoiceType == 'Credit', 'display: none;', '')}">
                             <td class="fieldHeader leftAlign" style="width: 1.1in;">
                                 <div>{!$Label.wunderbricks__BIC}:</div>
                             </td>
@@ -387,20 +387,6 @@
                             </td>
                         </tr>
                     </apex:repeat>
-                </tbody>
-            </table>
-        </div>
-        <div class="creditInvoiceDetails" style="{!IF(invDTO.invoiceType == 'Debit' , 'display: none;', '')}">
-            <table class="infoTable">
-                <tbody>
-                    <tr>
-                        <td class="fieldHeader leftAlign" style="width: 1in; padding-right: 0.15in;">
-                            <div>{!$Label.wunderbricks__Bank_Account_label}:</div>
-                        </td>
-                        <td class="divH2 leftAlign smallLeftPadding">
-                            <div>{!invDTO.paidToBankAccount}</div>
-                        </td>
-                    </tr>
                 </tbody>
             </table>
         </div>
