@@ -11,14 +11,7 @@ public inherited sharing class CustomInvoicePdfController {
 
     public CustomInvoicePdfController(ApexPages.StandardController stdController) {
         invDTO = getCustomInvoiceDTO((wunderbricks__Invoice__c) stdController.getRecord());
-        paymentMethodMessage = String.format(
-            System.Label.get('wunderbricks', 'Invoice_PDF_Payment_Method_Message'),
-            new List<String>{
-                invDTO.totalAmountInclVAT,
-                invDTO.paymentDueDate,
-                invDTO.invoiceNumber
-            }
-        );
+        paymentMethodMessage = getPaymentMethodMessage();
 
         //Set specific name of pdf file
         Apexpages.currentPage().getHeaders().put('content-disposition', 'inline; filename=' + invDTO.invoiceNumber + '.pdf');
@@ -224,6 +217,27 @@ public inherited sharing class CustomInvoicePdfController {
             invoiceItems
         );
     }
-    
+
+    private string getPaymentMethodMessage() {
+        String labelMessage;
+        if (invDTO.invoiceType == INVOICE_TYPE_DEBIT) {
+            labelMessage = System.Label.get('wunderbricks', 'Invoice_PDF_Payment_Method_Message');
+        } else {
+            if (invDTO.bankAccounts.isEmpty()) {
+                labelMessage = System.Label.get('wunderbricks', 'Invoice_PDF_Credit_Information_No_Bank_Account');
+            } else {
+                labelMessage = System.Label.get('wunderbricks', 'Invoice_PDF_Credit_Information_With_Bank_Account');
+            }
+        }
+
+        return String.format(
+            labelMessage,
+            new List<String>{
+                invDTO.totalAmountInclVAT,
+                invDTO.paymentDueDate,
+                invDTO.invoiceNumber
+            }
+        );
+    }
     
 }
