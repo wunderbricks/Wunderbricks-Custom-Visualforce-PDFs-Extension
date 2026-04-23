@@ -1,0 +1,188 @@
+<apex:page standardController="wunderbricks__Lease_Indexation__c" extensions="CustomLeaseIndexationPDFController" docType="html-5.0" renderAs="PDF"
+  showHeader="false" applyHtmlTag="true" applyBodyTag="false" language="{!$CurrentPage.parameters.lang}">
+
+  <head>
+    <style>
+      @page {
+        size: a4;
+        /* margin: 25mm; */
+        @bottom-center {
+          text-align: center;
+          text-transform: italic;
+          font-family: Arial, Helvetica, sans-serif;
+          font-size: 13px;
+          white-space: pre;
+          content: "{!pageFooter}";
+        }
+      }
+
+      html, body {
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 13px;
+      }
+
+      .t-right {
+        text-align: right;
+      }
+
+      .t-center {
+        text-align: center;
+      }
+
+      .no-wrap {
+        white-space: nowrap;
+      }
+
+      .wrap {
+        white-space: normal !important;
+      }
+
+      tr {
+          page-break-inside: avoid;
+      }
+
+      .table-bordered {
+        margin-bottom: 20px;
+        border-collapse: collapse;
+        width: 100%;
+      }
+
+      .table-bordered td, .table-bordered th {
+        padding-left: 8px;
+        padding-right: 8px;
+        white-space: nowrap;
+      }
+
+      .table-bordered thead th {
+        background-color: #efefef;
+      }
+
+      li {
+        list-style-type: none;
+      }
+
+    </style>
+  </head>
+
+  <body>
+    <div id="info">
+      <table style="width: 100%">
+        <tbody>
+          <tr>
+            <td style="width: 50%; text-align: left;">
+              <p style="{!postInfoStyle}">
+                <strong>Hello {!CustomLeaseIndexationDTO.leaseBillToName}</strong><br/>
+                <span>{!CustomLeaseIndexationDTO.billTo.billingStreet}</span><br/>
+                <span>{!CustomLeaseIndexationDTO.billTo.billingPostalCodeAndCity}</span>
+                <span style="{!IF(CustomLeaseIndexationDTO.leaseType == 'Residential' , 'display: none;', '')}">{!CustomLeaseIndexationDTO.leaseBillToAttention}</span>
+              </p>
+            </td>
+            <td style="width: 50%; text-align: right; vertical-align: middle;">
+              <img style="{!logoStyle}" src="{!CustomLeaseIndexationDTO.leaseBilling.logoURL}" />
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div id="pdfInfoTable">
+      <table>
+        <tr>
+          <td>{!$label.wunderbricks__Date_Label}: </td>
+          <td>{!today}</td>
+        </tr>
+        <tr>
+          <td>{!$label.wunderbricks__Subject_label}: </td>
+          <td>{!$label.wunderbricks__Rent_Adjustment_label} {!CustomLeaseIndexationDTO.leaseAddress}</td>
+        </tr>
+        <tr>
+          <td>{!$label.wunderbricks__Reference_label}: </td>
+          <td>{!CustomLeaseIndexationDTO.leaseNumber}</td>
+        </tr>
+      </table>
+    </div>
+    <div id="description">
+      <apex:outputText value="{!infoMessage}" escape="false" />
+    </div>
+    <div id="indexInfoTable" style="{!IF(showInfoTable , '', 'display: none;')}">
+      <table style="margin-bottom: 20px;">
+        <tbody>
+          <tr>
+            <td>{!$label.wunderbricks__Indexation_Date_label}: </td>
+            <td>{!CustomLeaseIndexationDTO.indexationRunDate}</td>
+          </tr>
+          <tr style="{!IF(showInfoTableRows && showIndexationHeadersInfo , '', 'display: none;')}">
+            <td>{!$label.wunderbricks__Index_label}: </td>
+            <td>{!CustomLeaseIndexationDTO.indexName}</td>
+          </tr>
+          <tr style="{!IF(showInfoTableRows && showIndexationHeadersInfo , '', 'display: none;')}">
+            <td>{!$label.wunderbricks__Index_Periods_label}: </td>
+            <td>{!CustomLeaseIndexationDTO.indexPeriod}</td>
+          </tr>
+          <tr style="{!IF(showInfoTableRows && showIndexationHeadersInfo, '', 'display: none;')}">
+            <td>{!$label.wunderbricks__Indexation_Values_label}: </td>
+            <td>{!CustomLeaseIndexationDTO.indexOldValue} / {!CustomLeaseIndexationDTO.indexNewValue}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div id="leaseIndexationItemTable-residential">
+      <table class="table-bordered">
+        <thead>
+          <tr>
+            <th style="padding-left: 2px;">{!$label.wunderbricks__Description}</th>
+            <th class="t-right">{!$label.wunderbricks__Current_Amount_label}</th>
+            <th class="t-right" style="{!IF(showInfoTable , '', 'display: none;')}">{!$label.wunderbricks__Adjustment_Rate_label}</th>
+            <th class="t-right">{!$label.wunderbricks__Adjustment_Amount_label}</th>
+            <th class="t-right" style="padding-right: 2px;">{!$label.wunderbricks__New_Amount_label}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <apex:repeat value="{!CustomLeaseIndexationDTO.leaseItemIndexations}" var="item">
+            <tr>
+              <td class="wrap" style="padding-left: 2px;">
+                {!item.chargeType} <br />
+                <i>{!item.unitName}</i>
+              </td>
+              <td class="t-right">{!$label.wunderbricks__Euro_sign} {!item.currentAmountNoTax}</td>
+              <td class="t-right" style="{!IF(showInfoTable , '', 'display: none;')}">{!item.adjustmentRate} {!$label.wunderbricks__Percent_sign}</td>
+              <td class="t-right">{!$label.wunderbricks__Euro_sign} {!item.adjustment}</td>
+              <td class="t-right" style="padding-right: 2px;">{!$label.wunderbricks__Euro_sign} {!item.newAmountNoTax}</td>
+            </tr>
+          </apex:repeat>
+        </tbody>
+        <tfoot style="{!IF(CustomLeaseIndexationDTO.leaseType == 'Residential' , '', 'display: none;')}">
+          <tr>
+            <th style="padding-left: 2px;">{!$Label.wunderbricks__Total_label}</th>
+            <th class="t-right">{!$label.wunderbricks__Euro_sign} {!CustomLeaseIndexationDTO.totalCurrentAmountExclTax}</th>
+            <th class="t-right" style="{!IF(showInfoTable , '', 'display: none;')}"></th>
+            <th class="t-right">{!$label.wunderbricks__Euro_sign} {!CustomLeaseIndexationDTO.totalAdjustment}</th>
+            <th class="t-right" style="padding-right: 2px;">{!$label.wunderbricks__Euro_sign} {!CustomLeaseIndexationDTO.totalNewAmountExclTax}</th>
+          </tr>
+        </tfoot>
+        <tfoot style="{!IF(CustomLeaseIndexationDTO.leaseType != 'Residential' , '', 'display: none;')}">
+          <tr class="t-right">
+            <th colspan="4">{!$Label.wunderbricks__Total_Excl_Tax_label}</th>
+            <th style="padding-right: 2px;">{!$label.wunderbricks__Euro_sign} {!CustomLeaseIndexationDTO.totalNewAmountExclTax}</th>
+          </tr>
+          <tr class="t-right">
+            <th colspan="4">{!$Label.wunderbricks__VAT_Input_Label}</th>
+            <th style="padding-right: 2px;">{!$label.wunderbricks__Euro_sign} {!CustomLeaseIndexationDTO.totalNewTaxAmount}</th>
+          </tr>
+          <tr class="t-right">
+            <th colspan="4">{!$Label.wunderbricks__Total_Incl_Tax_label}</th>
+            <th style="padding-right: 2px;">{!$label.wunderbricks__Euro_sign} {!CustomLeaseIndexationDTO.totalNewAmountInclTax}</th>
+          </tr>
+        </tfoot>
+      </table>
+      <p style="{!IF(CustomLeaseIndexationDTO.leaseType != 'Residential' , '', 'display: none;')}"><i><apex:outputText value="{!frequencyMessage}" /></i></p>
+    </div>
+    <div id="footer">
+      <apex:outputText value="{!footerMessage}" escape="false" />
+    </div>
+  </body>
+</apex:page>
